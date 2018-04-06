@@ -5,5 +5,13 @@ export default {
     resolutions(){
       return Resolutions.find({}).fetch()
     }
+  },
+  Mutation: {
+    createResolution(){
+      console.log('Ran Mutation')
+      /*const resolutionId = Resolutions.insert({
+        name: 'Resolution Name'
+      })*/
+    }
   }
 }
