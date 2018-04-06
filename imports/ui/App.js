@@ -9,7 +9,7 @@ const App = ({ data }) => {
   return ( 
     <div>
       <h1>{data.hi}</h1>
-      <ResolutionForm />
+      <ResolutionForm refetch={data.refetch} />
       <ul>
         {data.resolutions.map(({_id, name}) => (
           <li key={_id}>{name}</li>  
