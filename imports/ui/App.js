@@ -3,8 +3,18 @@ import gql from "graphql-tag";
 import { graphql } from "react-apollo";
 
 const App = ({ data }) => {
-  return( 
-  <h1>{data.hi}</h1>
+  if(data.loading) return null
+  return ( 
+    <div>
+      <h1>{data.hi}</h1>
+      <ul>
+        {data.resolutions.map(({_id, name}) => {
+          return (
+            <li key={_id}>{name}</li>  
+          )
+        })}
+      </ul>
+    </div>
   )
 }
 
@@ -12,6 +22,10 @@ const App = ({ data }) => {
 const hiQuery = gql`
   {
     hi
+    resolutions {
+      name
+      _id
+    }
   }
 `;
 
