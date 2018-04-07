@@ -32,9 +32,9 @@ const App = ({ loading, resolutions, client, user }) => {
           <li key={_id}>
             {name}
             <ul>
-              {goals.map(goal => {
+              {goals.map(goal => (
                 <Goal goal={goal} key={goal._id} />
-              })}
+              ))}
             </ul>
             <GoalForm resolutionId={_id} />
           </li>  
@@ -58,7 +58,6 @@ const resolutionsQuery = gql`
   }
   user {
     _id
-    email
   }
 }
 `;

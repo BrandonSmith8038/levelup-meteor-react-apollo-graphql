@@ -26,7 +26,7 @@ class GoalForm extends Component{
   render(){
     return(
       <div>
-        <p>Add Goal</p>
+        <p style={{ marginBottom: 0, marginTop: 0 }}>Add Goal</p>
         <input type="text" ref={input => (this.name = input)}/>
         <button onClick={this.submitForm}>Submit</button>
       </div>
@@ -36,4 +36,7 @@ class GoalForm extends Component{
 
 export default graphql(createGoal, {
   name: 'createGoal',
+  options: {
+    refetchQueries: ['Resolutions']
+  }
 })(GoalForm)
