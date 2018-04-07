@@ -7,6 +7,7 @@ import RegisterForm from './RegisterForm'
 import LoginForm from './LoginForm'
 import ResolutionForm from './ResolutionForm'
 import GoalForm from './GoalForm'
+import Goal from './resolutions/Goal'
 
 const App = ({ loading, resolutions, client, user }) => {
   if(loading) return null
@@ -27,9 +28,14 @@ const App = ({ loading, resolutions, client, user }) => {
         ) }
       <ResolutionForm />
       <ul>
-        {resolutions.map(({_id, name}) => (
+        {resolutions.map(({_id, name, goals}) => (
           <li key={_id}>
             {name}
+            <ul>
+              {goals.map(goal => {
+                <Goal goal={goal} key={goal._id} />
+              })}
+            </ul>
             <GoalForm resolutionId={_id} />
           </li>  
         ))}
@@ -42,14 +48,19 @@ const App = ({ loading, resolutions, client, user }) => {
 const resolutionsQuery = gql`
   query Resolutions {
   resolutions {
+    name
+    _id
+    goals {
+      _id
       name
-      _id
-    }
-    user {
-      _id
+      completed
     }
   }
-
+  user {
+    _id
+    email
+  }
+}
 `;
 
 export default graphql(resolutionsQuery, {
