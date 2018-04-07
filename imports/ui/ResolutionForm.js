@@ -25,6 +25,7 @@ class ResolutionForm extends Component{
   render(){
     return(
       <div>
+        <h1>Add Resolution</h1>
         <input type="text" ref={input => (this.name = input)}/>
         <button onClick={this.submitForm}>Submit</button>
       </div>
