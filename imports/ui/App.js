@@ -6,6 +6,7 @@ import { withApollo } from 'react-apollo'
 import RegisterForm from './RegisterForm'
 import LoginForm from './LoginForm'
 import ResolutionForm from './ResolutionForm'
+import GoalForm from './GoalForm'
 
 const App = ({ loading, resolutions, client, user }) => {
   if(loading) return null
@@ -27,7 +28,10 @@ const App = ({ loading, resolutions, client, user }) => {
       <ResolutionForm />
       <ul>
         {resolutions.map(({_id, name}) => (
-          <li key={_id}>{name}</li>  
+          <li key={_id}>
+            {name}
+            <GoalForm resolutionId={_id} />
+          </li>  
         ))}
       </ul>
     </div>
