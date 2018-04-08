@@ -30,10 +30,25 @@ const styles = {
 };
 
 class LoginForm extends Component {
+  constructor(props){
+    super(props)
+    
+    this.state = {
+      email: '',
+      password: ''
+    }
+  }
+  
+  handleChange(e){
+    const { value, name } = e.target
+    this.setState({
+      [name]: value
+    })
+  }
   
   login = (e) => {
     e.preventDefault()
-    Meteor.loginWithPassword(this.email.value,this.password.value, (error) => {
+    Meteor.loginWithPassword(this.state.email,this.state.password, (error) => {
       if(!error){
         this.props.client.resetStore()
       }
@@ -52,14 +67,17 @@ class LoginForm extends Component {
           fullWidth
           margin="normal"
           type="email"
-          ref={(input) => (this.email = input)}
+          name="email"
+          value={this.state.email}
+          onChange={this.handleChange.bind(this)}
         />
         <TextField
           label="Password"
+          name="password"
           fullWidth
           margin="normal"
           type="password"
-          ref={(input) => (this.password = input)}
+          onChange={this.handleChange.bind(this)}
         />
         <Button fullWidth type="submit" className={classes.button}>
           Login

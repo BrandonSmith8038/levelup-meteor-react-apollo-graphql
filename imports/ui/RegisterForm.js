@@ -31,6 +31,22 @@ const styles = {
 
 class RegisterForm extends Component {
   
+  constructor(props){
+    super(props)
+    
+    this.state = {
+      email: '',
+      password: ''
+    }
+  }
+  
+  handleChange(e){
+    const { value, name } = e.target
+    this.setState({
+      [name]: value
+    })
+  }
+  
   registerUser = (e) => {
     e.preventDefault()
     Accounts.createUser({
@@ -52,16 +68,18 @@ class RegisterForm extends Component {
         <TextField
           label="Email"
           fullWidth
+          name="email"
           margin="normal"
           type="email"
-          ref={(input) => (this.email = input)}
+          onChange={this.handleChange.bind(this)}
         />
         <TextField
           label="Password"
           fullWidth
+          name="password"
           margin="normal"
           type="password"
-          ref={(input) => (this.password = input)}
+          onChange={this.handleChange.bind(this)}
         />
         <Button type="submit" className={classes.button} variant="raised" fullWidth>
           Register User
