@@ -8,7 +8,7 @@ import GoalsSchema from '../../api/goals/Goal.graphql'
 import GoalsResolvers from '../../api/goals/resolvers'
 import UsersSchema from '../../api/users/Users.graphql'
 import UsersResolvers from '../../api/users/resolvers'
-/////afdsa/////
+/////afdsa//////hkj
 
 const typeDefs = [GoalsSchema,ResolutionsSchema, UsersSchema];
 
