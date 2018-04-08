@@ -10,7 +10,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory'
 import App from '../../ui/App'
 
 const httpLink = new HttpLink({
-  uri: 'https://levelup-meteor-graphql-react-cowboy8038.c9users.io/graphql'
+  uri: 'http://localhost:3000/graphql'
 })
 
 const authLink = new ApolloLink((operation, forward) => {
