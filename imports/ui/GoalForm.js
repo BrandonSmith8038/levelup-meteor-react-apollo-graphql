@@ -16,8 +16,8 @@ class GoalForm extends Component{
         name: this.name.value,
         resolutionId: this.props.resolutionId
       }
-    }).then(({ data }) => {
-      //this.props.refetch()
+    }).then(() => {
+      this.name.value = ''
     }).catch(error => {
       console.log(error)
     })
