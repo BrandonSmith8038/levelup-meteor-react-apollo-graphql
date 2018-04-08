@@ -13,14 +13,21 @@ class Goal extends Component {
  }
   
   render(){
+    const { goal } = this.props
     return(
       <li>
         <input  
           type="checkbox" 
           onChange={this.toggleGoal} 
-          checked={this.props.goal.completed} 
+          checked={goal.completed} 
         />
-        {this.props.goal.name}
+        <span 
+          style={{
+            textDecoration: goal.completed ? "line-through" : ""
+          }}
+        >
+          {goal.name}
+        </span>
       </li>
     )
   }
