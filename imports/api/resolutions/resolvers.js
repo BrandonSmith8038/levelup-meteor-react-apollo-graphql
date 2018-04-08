@@ -28,12 +28,14 @@ export default {
   
   Mutation: {
     createResolution(obj, { name }, {userId}){
-      console.log(name)
-       const resolutionId = Resolutions.insert({
+      if(userId){
+        const resolutionId = Resolutions.insert({
          name,
          userId
-       });
-       return Resolutions.findOne(resolutionId)
+        });
+        return Resolutions.findOne(resolutionId)
+      }
+      throw new Error('Unauthorized')
     }
   }
 };

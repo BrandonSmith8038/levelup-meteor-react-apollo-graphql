@@ -26,24 +26,30 @@ const App = ({ loading, resolutions, client, user }) => {
             <LoginForm client={client}/>
           </div>
         ) }
-      <ResolutionForm />
-      <ul>
-        {resolutions.map(({_id, name, completed, goals}) => (
-          <li key={_id}>
-            <span style={{
-              textDecoration: completed ? "line-through" : ""
-            }}>
-              {name}
-            </span>
-            <ul>
-              {goals.map(goal => (
-                <Goal goal={goal} key={goal._id} />
-              ))}
-            </ul>
-            <GoalForm resolutionId={_id} />
-          </li>  
-        ))}
-      </ul>
+      {user._id ? (
+        <div>
+          <ResolutionForm />
+          <ul>
+            {resolutions.map(({_id, name, completed, goals}) => (
+              <li key={_id}>
+                <span style={{
+                  textDecoration: completed ? "line-through" : ""
+                }}>
+                  {name}
+                </span>
+                <ul>
+                  {goals.map(goal => (
+                    <Goal goal={goal} key={goal._id} />
+                  ))}
+                </ul>
+                <GoalForm resolutionId={_id} />
+              </li>  
+            ))}
+          </ul>
+        </div>
+      ) : (
+        ""
+      )}
     </div>
   )
 }
