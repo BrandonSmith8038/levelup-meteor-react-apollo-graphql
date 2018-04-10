@@ -16,7 +16,7 @@ const createResolution = gql`
 `
 const styles = {
   button: {
-    marginTop: '40px',
+    marginTop: '15px',
     background: '#3F51B5',
     color: 'white',
     transition: '.3s',
@@ -29,46 +29,83 @@ const styles = {
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "column"
+  },
+  form: {
+    width: '50%'
+  },
+  heading: {
+    color: 'rgba(0, 0, 0, 0.7)'
+  },
+  error: {
+    color: '#F44336',
+    fontSize: '12px',
+    textTransform: 'uppercase'
+
   }
 }
 
-class ResolutionForm extends Component{
-  constructor(props){
+class ResolutionForm extends Component {
+  constructor(props) {
     super(props)
-    
+
     this.state = {
-      error: null
+      error: null,
+      name: null
     }
   }
-  
-  submitForm = () => {
-    this.props.createResolution({
-      variables: {
-        name: this.name.value
-      }
-    }).then(({ data }) => {
-      this.name.value = ""
-    }).catch(error => {
-      this.setState({
-        error: error.message
-      })
+
+  handleChange(e) {
+    const { value, name } = e.target
+    this.setState({
+      [name]: value
     })
   }
-  
-  render(){
+
+  submitForm = () => {
+    this.setState({
+      error: null
+    })
+    this.props.createResolution({
+      variables: {
+        name: this.state.name
+      }
+    }).then(({ data }) => {
+      this.state.name = ""
+    }).catch(error => {
+      if (this.state.name === null) {
+        this.setState({
+          error: 'You must enter a resolution'
+        })
+      } else {
+        this.setState({
+          error: error.message
+        })
+      }
+    })
+  }
+
+  render() {
     const { classes } = this.props
-    return(
+    return (
       <div className={classes.flex}>
-        <h1>Add Resolution</h1>
-        <input type="text" ref={input => (this.name = input)}/>
+        <h1 className={classes.heading}>Add Resolution</h1>
+        <TextField
+          className={classes.form}
+          margin="normal"
+          name="name"
+          onChange={this.handleChange.bind(this)}
+          placeholder="Resolution"
+          type="resolution"
+          value={this.state.name}
+        />
         <Button
-          className = {classes.button} 
+          className={classes.button}
           onClick={this.submitForm}
           varient="raised"
         >
           Add
         </Button>
-        {this.state.error && <p>{this.state.error}</p>}
+        {this.state.error && <p className={classes.error}>{this.state.error}</p>}
       </div>
     )
   }
