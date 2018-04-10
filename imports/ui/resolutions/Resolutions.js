@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { withStyles } from "material-ui/styles";
 import Card, { CardActions, CardContent } from "material-ui/Card";
+import FlipMove from "react-flip-move";
 
 import GoalForm from "../GoalForm";
 import Goal from "./Goal";
@@ -55,24 +56,32 @@ class Resolutions extends Component {
     return (
       <ul>
         {resolutions.map(({ _id, name, completed, goals }) => (
-          <Card className={classes.card} key={_id}>
-            <li className={classes.fullWidth} style={{ textAlign: "center" }}>
-              <h1
-                className={
-                  completed ? striked.join(" ") : classes.resolutionTitle
-                }
-              >
-                {name}
-              </h1>
+          <FlipMove key={_id}>
+            <Card className={classes.card}>
+              <li className={classes.fullWidth} style={{ textAlign: "center" }}>
+                <h1
+                  className={
+                    completed ? striked.join(" ") : classes.resolutionTitle
+                  }
+                >
+                  {name}
+                </h1>
 
-              <div className={classes.flex}>
-                <ul>
-                  {goals.map(goal => <Goal goal={goal} key={goal._id} />)}
-                </ul>
-                <GoalForm resolutionId={_id} />
-              </div>
-            </li>
-          </Card>
+                <div className={classes.flex}>
+                  <ul>
+                    {goals.map(goal => {
+                      return (
+                        <FlipMove key={goal._id}>
+                          <Goal goal={goal} />
+                        </FlipMove>
+                      );
+                    })}
+                  </ul>
+                  <GoalForm resolutionId={_id} />
+                </div>
+              </li>
+            </Card>
+          </FlipMove>
         ))}
       </ul>
     );
