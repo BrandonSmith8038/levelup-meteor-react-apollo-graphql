@@ -1,11 +1,9 @@
-import React, { Component } from 'react'
 import gql from "graphql-tag";
+import Button from "material-ui/Button";
+import TextField from "material-ui/TextField";
+import { withStyles } from "material-ui/styles";
+import React, { Component } from "react";
 import { graphql } from "react-apollo";
-import Button from 'material-ui/Button';
-import Card, { CardActions, CardContent } from 'material-ui/Card';
-import TextField from 'material-ui/TextField';
-import { withStyles } from 'material-ui/styles';
-
 
 const createResolution = gql`
   mutation createResolution($name: String!) {
@@ -13,15 +11,16 @@ const createResolution = gql`
       _id
     }
   }
-`
+`;
 const styles = {
   button: {
-    marginTop: '15px',
-    background: '#3F51B5',
-    color: 'white',
-    transition: '.3s',
-    '&:hover': {
-      background: '#303F9F'
+    marginTop: "15px",
+    marginBottom: "50px",
+    background: "#3F51B5",
+    color: "white",
+    transition: ".3s",
+    "&:hover": {
+      background: "#303F9F"
     }
   },
   flex: {
@@ -31,61 +30,64 @@ const styles = {
     flexDirection: "column"
   },
   form: {
-    width: '50%'
+    width: "50%"
   },
   heading: {
-    color: 'rgba(0, 0, 0, 0.7)'
+    color: "rgba(0, 0, 0, 0.7)",
+    marginBottom: "20px"
   },
   error: {
-    color: '#F44336',
-    fontSize: '12px',
-    textTransform: 'uppercase'
-
+    color: "#F44336",
+    fontSize: "12px",
+    textTransform: "uppercase"
   }
-}
+};
 
 class ResolutionForm extends Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       error: null,
-      name: null
-    }
+      name: ""
+    };
   }
 
   handleChange(e) {
-    const { value, name } = e.target
+    const { value, name } = e.target;
     this.setState({
       [name]: value
-    })
+    });
   }
 
   submitForm = () => {
     this.setState({
-      error: null
-    })
-    this.props.createResolution({
-      variables: {
-        name: this.state.name
-      }
-    }).then(({ data }) => {
-      this.state.name = ""
-    }).catch(error => {
-      if (this.state.name === null) {
-        this.setState({
-          error: 'You must enter a resolution'
-        })
-      } else {
-        this.setState({
-          error: error.message
-        })
-      }
-    })
-  }
+      error: ""
+    });
+    this.props
+      .createResolution({
+        variables: {
+          name: this.state.name
+        }
+      })
+      .then(({ data }) => {
+        this.state.name = "";
+      })
+      .catch(error => {
+        if (this.state.name === "") {
+          this.setState({
+            error: "You must enter a resolution"
+          });
+        } else {
+          this.setState({
+            error: error.message
+          });
+        }
+      });
+  };
 
   render() {
-    const { classes } = this.props
+    const { classes } = this.props;
     return (
       <div className={classes.flex}>
         <h1 className={classes.heading}>Add Resolution</h1>
@@ -105,15 +107,17 @@ class ResolutionForm extends Component {
         >
           Add
         </Button>
-        {this.state.error && <p className={classes.error}>{this.state.error}</p>}
+        {this.state.error && (
+          <p className={classes.error}>{this.state.error}</p>
+        )}
       </div>
-    )
+    );
   }
 }
 
 export default graphql(createResolution, {
-  name: 'createResolution',
+  name: "createResolution",
   options: {
-    refetchQueries: ['Resolutions']
+    refetchQueries: ["Resolutions"]
   }
-})(withStyles(styles)(ResolutionForm))
+})(withStyles(styles)(ResolutionForm));

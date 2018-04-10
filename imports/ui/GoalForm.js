@@ -1,6 +1,9 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
 import gql from "graphql-tag";
 import { graphql } from "react-apollo";
+import Button from "material-ui/Button";
+import TextField from "material-ui/TextField";
+import { withStyles } from "material-ui/styles";
 
 const createGoal = gql`
   mutation createGoal($name: String!, $resolutionId: String!) {
@@ -8,35 +11,91 @@ const createGoal = gql`
       _id
     }
   }
-`
-class GoalForm extends Component{
-  submitForm = () => {
-    this.props.createGoal({
-      variables: {
-        name: this.name.value,
-        resolutionId: this.props.resolutionId
-      }
-    }).then(() => {
-      this.name.value = ''
-    }).catch(error => {
-      console.log(error)
-    })
+`;
+const styles = {
+  button: {
+    marginLeft: "15px",
+    marginTop: "15px",
+    background: "#3F51B5",
+    color: "white",
+    transition: ".3s",
+    "&:hover": {
+      background: "#303F9F"
+    }
+  },
+  form: {
+    width: "60%"
+  },
+  heading: {
+    color: "rgba(0, 0, 0, 0.7)",
+    fontSize: "25px",
+    textTransform: "uppercase"
+  },
+  error: {
+    color: "#F44336",
+    fontSize: "12px",
+    textTransform: "uppercase"
   }
-  
-  render(){
-    return(
-      <div>
-        <p style={{ marginBottom: 0, marginTop: 0 }}>Add Goal</p>
-        <input type="text" ref={input => (this.name = input)}/>
-        <button onClick={this.submitForm}>Submit</button>
+};
+
+class GoalForm extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      error: null,
+      name: ""
+    };
+  }
+
+  submitForm = () => {
+    this.props
+      .createGoal({
+        variables: {
+          name: this.name.value,
+          resolutionId: this.props.resolutionId
+        }
+      })
+      .then(() => {
+        this.name.value = "";
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  handleChange() {}
+
+  render() {
+    const { classes } = this.props;
+    return (
+      <div style={{ marginTop: "30px", width: "70%" }}>
+        <p
+          className={classes.heading}
+          style={{ marginBottom: 0, marginTop: 0 }}
+        >
+          Add Goal
+        </p>
+        <TextField
+          className={classes.form}
+          margin="normal"
+          name="name"
+          onChange={this.handleChange.bind(this)}
+          placeholder="Goal"
+          type="name"
+          value={this.state.name}
+        />
+        <Button className={classes.button} onClick={this.submitForm}>
+          Add Goal
+        </Button>
       </div>
-    )
+    );
   }
 }
 
 export default graphql(createGoal, {
-  name: 'createGoal',
+  name: "createGoal",
   options: {
-    refetchQueries: ['Resolutions']
+    refetchQueries: ["Resolutions"]
   }
-})(GoalForm)
+})(withStyles(styles)(GoalForm));

@@ -1,33 +1,82 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
+import { withStyles } from "material-ui/styles";
+import Card, { CardActions, CardContent } from "material-ui/Card";
 
-import GoalForm from '../GoalForm'
-import Goal from './Goal'
+import GoalForm from "../GoalForm";
+import Goal from "./Goal";
+
+const styles = {
+  card: {
+    alignItems: "center",
+    display: "flex",
+    justifyContent: "center",
+    margin: "15px auto",
+    padding: "15px 0",
+    width: "70%"
+  },
+  flex: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start"
+  },
+  fullWidth: {
+    listStyle: "none",
+    width: "100%"
+  },
+  strike: {
+    position: "relative",
+    "&:after": {
+      position: "absolute",
+      top: "50%",
+      left: "0",
+      width: "100%",
+      height: "1px",
+      background: "black",
+      content: "''",
+      animationName: "strike",
+      animationDuration: "1s",
+      animationTimingFunction: "linear",
+      animationIterationCount: "1",
+      animationFillMode: "forwards"
+    }
+  },
+  resolutionTitle: {
+    color: "rgba(0,0,0,0.7)",
+    fontSize: "40px",
+    marginBottom: "60px",
+    textTransform: "uppercase"
+  }
+};
 
 class Resolutions extends Component {
-	
-	render(){
-		const { resolutions } = this.props
-		return (
-			<ul>
-			 {resolutions.map(({_id, name, completed, goals}) => (
-	      <li key={_id}>
-	        <span style={{
-	          textDecoration: completed ? "line-through" : ""
-	        }}>
-	          {name}
-	        </span>
-	        <ul>
-	          {goals.map(goal => (
-	            <Goal goal={goal} key={goal._id} />
-	          ))}
-	        </ul>
-	        <GoalForm resolutionId={_id} />
-	      </li>  
-	    ))}
-    </ul>
-		)	 
-	}
+  render() {
+    const { resolutions, classes } = this.props;
+    const striked = [classes.strike, classes.resolutionTitle];
+    return (
+      <ul>
+        {resolutions.map(({ _id, name, completed, goals }) => (
+          <Card className={classes.card} key={_id}>
+            <li className={classes.fullWidth} style={{ textAlign: "center" }}>
+              <h1
+                className={
+                  completed ? striked.join(" ") : classes.resolutionTitle
+                }
+              >
+                {name}
+              </h1>
+
+              <div className={classes.flex}>
+                <ul>
+                  {goals.map(goal => <Goal goal={goal} key={goal._id} />)}
+                </ul>
+                <GoalForm resolutionId={_id} />
+              </div>
+            </li>
+          </Card>
+        ))}
+      </ul>
+    );
+  }
 }
 
-
-export default Resolutions
+export default withStyles(styles)(Resolutions);
