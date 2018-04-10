@@ -8,7 +8,8 @@ const test = ".";
 const styles = {
   goalTitle: {
     color: "rgba(0,0,0,0.7)",
-    fontSize: "18px"
+    fontSize: "18px",
+    textAlign: "left"
   },
   strike: {
     position: "relative",
