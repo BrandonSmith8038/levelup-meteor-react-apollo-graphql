@@ -35,13 +35,17 @@ const styles = {
     color: "#F44336",
     fontSize: "12px",
     textTransform: "uppercase"
+  },
+  error: {
+    color: "#F44336",
+    fontSize: "12px",
+    textTransform: "uppercase"
   }
 };
 
 class GoalForm extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       error: null,
       name: ""
@@ -49,22 +53,36 @@ class GoalForm extends Component {
   }
 
   submitForm = () => {
+    this.setState({
+      error: null
+    });
+    if (this.state.name === "") {
+      this.setState({
+        error: "You Must Provide A goal"
+      });
+      return;
+    }
     this.props
       .createGoal({
         variables: {
-          name: this.name.value,
+          name: this.state.name,
           resolutionId: this.props.resolutionId
         }
       })
       .then(() => {
-        this.name.value = "";
+        this.state.name = "";
       })
       .catch(error => {
         console.log(error);
       });
   };
 
-  handleChange() {}
+  handleChange(e) {
+    const { value, name } = e.target;
+    this.setState({
+      [name]: value
+    });
+  }
 
   render() {
     const { classes } = this.props;
@@ -88,6 +106,9 @@ class GoalForm extends Component {
         <Button className={classes.button} onClick={this.submitForm}>
           Add Goal
         </Button>
+        {this.state.error && (
+          <p className={classes.error}>{this.state.error}</p>
+        )}
       </div>
     );
   }
