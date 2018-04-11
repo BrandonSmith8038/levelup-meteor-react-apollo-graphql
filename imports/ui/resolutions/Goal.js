@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import gql from "graphql-tag";
 import { graphql } from "react-apollo";
 import { withStyles } from "material-ui/styles";
+import FlipMove from "react-flip-move";
 
 const test = ".";
 
@@ -46,16 +47,18 @@ class Goal extends Component {
   render() {
     const { goal, classes } = this.props;
     return (
-      <li style={{ listStyle: "none" }} className={classes.goalTitle}>
-        <input
-          type="checkbox"
-          onChange={this.toggleGoal}
-          checked={goal.completed}
-        />
-        <span className={goal.completed ? classes.strike : ""}>
-          {goal.name}
-        </span>
-      </li>
+      <FlipMove key={goal.id}>
+        <li style={{ listStyle: "none" }} className={classes.goalTitle}>
+          <input
+            type="checkbox"
+            onChange={this.toggleGoal}
+            checked={goal.completed}
+          />
+          <span className={goal.completed ? classes.strike : ""}>
+            {goal.name}
+          </span>
+        </li>
+      </FlipMove>
     );
   }
 }

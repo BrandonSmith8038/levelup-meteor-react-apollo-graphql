@@ -15,7 +15,7 @@ export default {
   Resolution: {
     goals: resolution =>
       Goals.find({
-        resolutionId: resolution._id
+        resolutionId: "resolution._id"
       }).fetch(),
 
     completed: resolution => {
@@ -39,6 +39,13 @@ export default {
         return Resolutions.findOne(resolutionId);
       }
       throw new Error("Unauthorized");
+    },
+    deleteResolution(obj, { id }, { userId }) {
+      if (userId) {
+        const deleted = Resolutions.remove({ _id: id });
+        return deleted;
+      }
+      throw new Error("Unauthroized");
     }
   }
 };

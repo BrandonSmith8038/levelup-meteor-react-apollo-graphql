@@ -7,8 +7,9 @@ type Resolution {
 
 type Mutation {
   createResolution(name: String!): Resolution
+  deleteResolution(id: String!): Resolution
 }
 
 type Query {
- resolutions: [Resolution]
+  resolutions: [Resolution]
 }

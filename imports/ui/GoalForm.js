@@ -24,6 +24,7 @@ const styles = {
     }
   },
   form: {
+    marginBottom: '40px',
     width: "60%"
   },
   heading: {
